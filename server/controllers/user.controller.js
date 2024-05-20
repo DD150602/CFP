@@ -42,4 +42,19 @@ export default class UserController {
     }
     return res.json(response)
   }
+
+  static async updateUser (req, res, next) {
+    const { id } = req.params
+    const data = req.body
+    const response = await UserModel.updateUser(id, data)
+    if (response instanceof Error) {
+      const error = new CantCreate({
+        message: response.message,
+        name: response.name,
+        statusCode: 400
+      })
+      return next(error)
+    }
+    return res.json(response)
+  }
 };

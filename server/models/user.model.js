@@ -45,4 +45,23 @@ export default class UserModel {
       return error
     }
   }
+
+  static async updateUser (id, input) {
+    try {
+      const { nombreUsuario, numeroDocumento, numeroContacto, direccion, correo, registrosBancarios } = input
+      const strigify = JSON.stringify(registrosBancarios)
+
+      await db.query(
+        `UPDATE users SET nombre_usuario = ?, numero_documento = ?, numero_contacto = ?, direccion = ?, correo = ?, registros_bancarios = ?  
+        WHERE id_usuario = UUID_TO_BIN(?)`,
+        [nombreUsuario, numeroDocumento, numeroContacto, direccion, correo, strigify, id]
+      )
+
+      return {
+        message: 'User updated successfully'
+      }
+    } catch (error) {
+      return error
+    }
+  }
 };
