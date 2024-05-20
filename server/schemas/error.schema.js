@@ -18,4 +18,4 @@ const ErrorFactory = () => {
 
 export const NoData = ErrorFactory()
 export const CorsNotAllowed = ErrorFactory()
-export const UnknownError = ErrorFactory()
+export const CantCreate = ErrorFactory()
