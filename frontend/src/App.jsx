@@ -7,6 +7,8 @@ import AddIcon from '@mui/icons-material/Add'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AlertDescargar from './components/descargaCopmponent'
+import { VisualizarComponent } from './components/visualizarComponent'
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const columns = [
   { field: 'nombre_usuario', headerName: 'Nombre', width: 140 },
@@ -15,34 +17,6 @@ const columns = [
   { field: 'direccion', headerName: 'Direccion', width: 260 },
   { field: 'correo', headerName: 'Correo', width: 180 }
 ]
-/*
-const data = [
-  {
-    id: 1,
-    nombre_usuario: 'Juan Pérez',
-    numero_documento: '12345678',
-    numero_contacto: '+1234567890',
-    direccion: 'Calle Principal 123',
-    correo: 'juan@example.com'
-  },
-  {
-    id: 2,
-    nombre_usuario: 'María García',
-    numero_documento: '87654321',
-    numero_contacto: '+1987654321',
-    direccion: 'Avenida Central 456',
-    correo: 'maria@example.com'
-  },
-  {
-    id: 3,
-    nombre_usuario: 'Carlos López',
-    numero_documento: '23456789',
-    numero_contacto: '+1122334455',
-    direccion: 'Plaza Mayor 789',
-    correo: 'carlos@example.com'
-  }
-]
-*/
 
 function App () {
   const { selectId, saveSelectId } = useSelectId()
@@ -97,6 +71,15 @@ function App () {
             successMessage={setSuccess}
             errorMessage={setError}
                    />}
+          ver={<VisualizarComponent
+            icon={<VisibilityIcon className='w-6 h-6' />}
+            tooltip='Visualizar Informacion'
+            bgColor='secondary'
+            label='Informe Generado'
+            id={selectId}
+            successMessage={setSuccess}
+            errorMessage={setError}
+               />}
           descarga={<AlertDescargar
             idSeleccionado={selectId}
             tooltip='Descargar Informe'

@@ -53,7 +53,7 @@ const generador = [
 export const FormAgregar = (props) => {
   const { label, id, bgColor, icon, tooltip, actualizar, dato, successMessage, errorMessage } = props
   const { values, setValues, handleInputChange } = useForm(defaultValues)
-  const { desabilitado, validarId } = useHabilitar({ id })
+  const { desabilitado } = useHabilitar({ id })
 
   const [open, setOpen] = useState(false)
   const [error, setError] = useState('')
@@ -113,6 +113,7 @@ export const FormAgregar = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const envio = { ...values, registrosBancarios: deudas }
+    console.log(envio)
     try {
       const endpoint = 'http://localhost:4321/api/'
       const httpMethod = 'post'
@@ -131,10 +132,23 @@ export const FormAgregar = (props) => {
       // logica formularios generados
       nuevosFormularios.push(
         <Grid container spacing={2} key={i}>
+          {i === 0 &&
+            <Grid item xs={12} sm={12}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  views={['year', 'month']}
+                  label='Mes a registrar'
+                  value={dayjs(deudas.mes_registro)}
+                  onChange={(date) => handleMonthChange(date, i)}
+                  required
+                  fullWidth
+                />
+              </LocalizationProvider>
+            </Grid>}
           <Grid item xs={12}>
             <Typography variant='h6'>Deuda {i + 1}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Input
               id='entidad_bancaria'
               label='Entidad Bancaria'
@@ -150,18 +164,6 @@ export const FormAgregar = (props) => {
                 label='Fecha de pago oportuno'
                 value={dayjs(deudas.fecha_pago_oportuno)}
                 onChange={(date) => handleDateChange(date, i)}
-                required
-                fullWidth
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                views={['year', 'month']}
-                label='Mes a registrar'
-                value={dayjs(deudas.mes_registro)}
-                onChange={(date) => handleMonthChange(date, i)}
                 required
                 fullWidth
               />
@@ -195,7 +197,6 @@ export const FormAgregar = (props) => {
 
   const handleInputChangeDeudas = (e, index) => {
     const { name, value } = e.target
-    console.log(e)
     setDeudas(prevDeudas => {
       const updatedDeudas = [...prevDeudas]
       updatedDeudas[index][name] = value
@@ -214,7 +215,9 @@ export const FormAgregar = (props) => {
   const handleMonthChange = (date, index) => {
     setDeudas(prevDeudas => {
       const updatedDeudas = [...prevDeudas]
-      updatedDeudas[index].mes_registro = date.format('MM/YYYY')
+      for (const deudas of updatedDeudas) {
+        deudas.mes_registro = date.format('MM/YYYY')
+      }
       return updatedDeudas
     })
   }

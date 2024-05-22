@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export const useHabilitar = ({ id }) => {
   const [desabilitado, setDesabilitado] = useState(false)
@@ -10,4 +10,4 @@ export const useHabilitar = ({ id }) => {
   }, [id])
 
   return { desabilitado, validarId }
-};
+}
